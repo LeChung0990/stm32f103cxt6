@@ -17,38 +17,38 @@
 <img src = image/pl2303_2.png width = "350" />
 <img src = image/pl2303_3.png width = "350" />
 
-# Quá trình cài đặt tool biên dịch và nạp chương trình cho stm32f103c8t6
+# How to install arm-gcc to programming for stm32f103 and install st-flash
 
-## 1. Cài đặt arm-none-eabi-gcc trình biên dịch cho arm
-- Dowload tool 
+## 1. Install arm-none-eabi-gcc 
+- Dowload tool version below: 
 
 >gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2
 
-- Giai nen file tren va vao duong dan gcc-arm/bin/ sau do chay lenh sau de kiem tra phien ban:
+- Extract file and **cd gcc-arm/bin/** , run command below to check version:
 
 >./arm-none-eabi-gcc -v
 
 ![Alt text](image/image.png)
 
-- Duong dan trong makefile :
+- Note: Save path to change path arm-gcc in Makefile for projects:
 
 > PREFIX = /home/chung/laptrinh/stm32/tool/gcc-arm/bin/arm-none-eabi-
 
-# 2. Cai dat st-flash de nap chuong trinh cho stm32
-- Trang web: https://github.com/stlink-org/stlink/releases
-- Vi dang dung ban Ubuntu 18.04 nen khong the tai cac ban moi nhat tren trang github ma can chon ban phu hop. O day chon ban 1.5.0
+# 2. Install st-flash for programming stm32
+- Web: https://github.com/stlink-org/stlink/releases
+- Now, Ubuntu version is a 18.04 so not download last version of stlink in web. Go to release and choose version 1.5.0
 
 ![Alt text](image/dv.jpg)
 
-- Sau do giai nen file bang lenh 
+- Extract file using command below: 
 
->unzip stlink-1.5.0.zip -d [thumucdich]
+>unzip stlink-1.5.0.zip -d [directory]
 
-- Vao thu muc vua giai nen, sau do doc qua file compiling.md de biet cach cai dat.
+- Go to stlink-1.5.0/doc and review file compiling.md, that is tutorial install
 
 > nano stlink-1.5.0/doc/compiling.md 
 
-- Trong file co ghi chu ve viec cai cac thu vien can thiet va fix lai mot loi khi bien dich
+- In compiling.md file have note install libusb1.0 and fix error when compiling
 
 ```
 # Compiling
@@ -71,11 +71,12 @@
 When installing system-wide (`sudo make install`) the dynamic library cache needs to be updated with the command `ldconfig`.
 ```
 
-- Thu vien can thiet :libusb-1.0 
-- Truoc khi chay lenh sudo make can chay lenh sudo ldconfig truoc de khong bi loi thu vien : 
+- Note: install **libusb-1.0**
+- Before run **sudo make** need run **sudo ldconfig** fot not error as below: 
+
 > error while loading shared libraries: libstlink-shared.so.1
 
-- sau khi chay lenh sudo make, vao thu muc build se duoc cac file sau:
+- After run **sudo make** go to build/Release :
 
 ```
 $laptrinh/stm32/tool/stlink-1.5.0/build/Release$ ls
@@ -86,7 +87,7 @@ CPackConfig.cmake        libstlink-shared.so.1      tests
 CPackSourceConfig.cmake  libstlink-shared.so.1.5.0  usr
 doc                      Makefile
 ```
-- luc nay da co the chay lenh ./st-flash va ./st-info de kiem tra
+- run command **./st-flash** and **./st-info** for check:
 
 ```
 $/aptrinh/stm32/tool/stlink-1.5.0/build/Release$ ./st-info --version
@@ -105,29 +106,28 @@ stlinkv2 command line: ./st-flash [--debug] [--serial <serial>] reset
                        ./st-flash [--version]
 ```
 
-- Sau do copy 2 file chay st-flash va st-info cao thu muc /usr/bin
+- For run command st-flash and st-info in everywhere need copy it to /usr/bin/:
 
 > sudo cp st-flash /usr/bin
 > sudo cp st-info /usr/bin
 
-## Qua trinh debug chuong trinh dung openOCD tren stm32f103c8t6
+## Install openOCD and gdb-multiarch for debug stm32f103
 
-- cai dat gdb-multiarch
+- Install gdb-multiarch
 
 ![Alt text](image/gdb-mul.png)
 
-- cai dat libtool
+- Install libtool
 
 ![Alt text](image/libtool.png)
 
-- cai dat openOCD
+- Install openOCD
 
 ![Alt text](image/openocd.png)
 ![Alt text](image/openocd_version.png)
 
 
-
-## Link tham khao:
+## Link reference:
 >   https://tapit.vn/chuc-nang-lowpower-mode-cua-mcu-stm32f103c8t6/ 
 >   https://tapit.vn/real-time-clock-rtc-tren-stm32f103c8t6/
 
